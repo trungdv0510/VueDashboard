@@ -1,6 +1,6 @@
 <template>
     <!-- header  -->
-  <nav class="navbar navbar-expand-sm navbar-light menuItem">
+  <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="isAuth == true">
      <router-link to="/" class="navbar-brand ml-4 logo">
         <i class="fab fa-adn fa-2x"></i>
         <p class="float-right ml-2 mt-1">Automation <i>v1.0</i></p>
@@ -56,7 +56,13 @@
 </template>
 <script>
 export default {
-    name :'HeaderLayout'
+    name :'HeaderLayout',
+    setup() {
+      const isAuth = true;
+      return {
+        isAuth
+      }
+    }
 }
 </script>
 <style>

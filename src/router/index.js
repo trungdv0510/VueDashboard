@@ -7,7 +7,7 @@ import notfound from '@/components/pages/404Error.vue'
 import login from '@/components/pages/loginVue.vue';
 const routes = [
     {
-        path:"/",
+        path:"/index",
         name:"index",
         component: indexReport
     },
@@ -32,9 +32,13 @@ const routes = [
         name:"login",
         component: login,
     },
+    {
+        path:"/",
+        redirect:"/login",
+    },
     //catch all 404
     {
-        path:'/:catchAll(.*)',
+        path:'/:catchAll(.*)*',
         name:'notFound',
         component:notfound
     }
@@ -43,5 +47,17 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
-})
+});
+router.beforeEach((to, from, next) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/login'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+  
+    if (authRequired && !loggedIn) {
+      return next('/login');
+    }
+  
+    next();
+  })
 export default router
