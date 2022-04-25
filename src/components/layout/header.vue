@@ -58,7 +58,7 @@
 export default {
     name :'HeaderLayout',
     setup() {
-      const isAuth = true;
+      const isAuth = false;
       return {
         isAuth
       }
