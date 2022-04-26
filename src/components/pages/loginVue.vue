@@ -75,6 +75,7 @@
 <script>
 import useValidate from "@vuelidate/core";
 import { required,minLength } from "@vuelidate/validators";
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: "loginVue",
   data() {
@@ -84,6 +85,7 @@ export default {
       password: ""
     };
   },
+  computed:mapGetters(["auth"]),
   validations() {
     return {
       username: { 
@@ -97,6 +99,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["SET_AUTH"]),
     onSubmit() {
       this.v$.$validate(); // checks all inputs
       if (!this.v$.$error) {
@@ -105,8 +108,9 @@ export default {
           password: this.password
         };
         console.log(user);
-        this.username = "";
-        this.password = "";
+        localStorage.setItem("user",user.username);
+        this.SET_AUTH(true);
+        this.$router.push("/index");
       }
       console.log(this.v$);
     }

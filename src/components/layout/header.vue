@@ -1,6 +1,6 @@
 <template>
     <!-- header  -->
-  <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="isAuth == true">
+  <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="auth == true">
      <router-link to="/" class="navbar-brand ml-4 logo">
         <i class="fab fa-adn fa-2x"></i>
         <p class="float-right ml-2 mt-1">Automation <i>v1.0</i></p>
@@ -20,7 +20,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownIds">
               <a class="dropdown-item" href="#">Settings</a>
               <router-link class="dropdown-item" :to="{name:'create'}">Add user</router-link>
-              <a class="dropdown-item" href="#">Log out</a>
+              <a class="dropdown-item" href="#" @click="logOut">Log out</a>
             </div>
           </li>
 
@@ -55,14 +55,18 @@
   <!-- end header -->
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name :'HeaderLayout',
+    computed:mapGetters(["auth"]),
     setup() {
-      const isAuth = false;
-      return {
-        isAuth
+    },
+    methods: {
+      logOut(){
+        localStorage.removeItem("user");
+        this.$route.url("/login");
       }
-    }
+    },
 }
 </script>
 <style>
