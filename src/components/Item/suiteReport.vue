@@ -1,4 +1,4 @@
-<template>\
+<template>
 <div class="container">
     <table class="table table-bordered testsuit1">
     <tbody>

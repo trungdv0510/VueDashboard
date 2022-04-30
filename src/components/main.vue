@@ -1,7 +1,9 @@
 <template>
   <HeaderLayout />
   <div class="body">
+    
     <router-view/>
+
   </div>
   <!-- <LoginVue /> -->
 </template>
@@ -12,14 +14,15 @@ import HeaderLayout from "./layout/header.vue";
 export default {
   name: "MainAdmin",
   components: {
-    HeaderLayout,
-  },
+    HeaderLayout
+  }
 };
 </script>
 
 <style>
 .body {
-  width: 100%;
+  margin-left: 8%;
+  width: 90%;
   margin-top: 110px;
 }
 </style>

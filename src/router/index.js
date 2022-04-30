@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
+import {getCookie} from "@/utils/localStorerage.js";
 import createAccount from '@/components/pages/createAccount.vue';
 import indexReport from '@/components/pages/index.vue';
 import reportList from '@/components/pages/reportList.vue';
@@ -7,7 +8,7 @@ import notfound from '@/components/pages/404Error.vue'
 import login from '@/components/pages/loginVue.vue';
 const routes = [
     {
-        path:"/index",
+        path:"/",
         name:"index",
         component: indexReport
     },
@@ -33,8 +34,8 @@ const routes = [
         component: login,
     },
     {
-        path:"/",
-        redirect:"/login",
+        path:"/index",
+        redirect:"/",
     },
     //catch all 404
     {
@@ -52,7 +53,7 @@ router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
-    const loggedIn = localStorage.getItem('user');
+    const loggedIn = getCookie('user');
   
     if (authRequired && !loggedIn) {
       return next('/login');

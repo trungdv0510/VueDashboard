@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="">
     <h3 class="borderItems mt-5">{{titleName}}</h3>
           <table class="table table-striped table-inverse tableResult table-bordered">
             <thead class="thead-inverse">

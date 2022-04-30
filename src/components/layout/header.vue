@@ -1,6 +1,6 @@
 <template>
     <!-- header  -->
-  <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="auth == true">
+  <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="authThen == true">
      <router-link to="/" class="navbar-brand ml-4 logo">
         <i class="fab fa-adn fa-2x"></i>
         <p class="float-right ml-2 mt-1">Automation <i>v1.0</i></p>
@@ -55,16 +55,27 @@
   <!-- end header -->
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters,mapMutations } from 'vuex'
+import {removeCookie,getCookie} from "@/utils/localStorerage.js";
 export default {
     name :'HeaderLayout',
     computed:mapGetters(["auth"]),
     setup() {
+      const isLogin = getCookie("user");
+      let authThen = mapGetters(["auth"]);
+      if(isLogin){
+         authThen = true;
+      }
+      return {
+        authThen
+      }
     },
     methods: {
+      ...mapMutations(["SET_AUTH"]),
       logOut(){
-        localStorage.removeItem("user");
-        this.$route.url("/login");
+        removeCookie("user");
+        this.authThen = false;
+        window.location.href = '/'
       }
     },
 }
