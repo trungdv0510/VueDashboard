@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import {getCookie} from "@/utils/localStorerage.js";
+import {getCookie} from "@/utils/cookiesUtils.js";
 import createAccount from '@/components/pages/createAccount.vue';
 import indexReport from '@/components/pages/index.vue';
 import reportList from '@/components/pages/reportList.vue';

@@ -23,6 +23,7 @@
                                         <form
                                             class="user"
                                             @submit.prevent="onSubmit">
+                                             <div v-if="message" :class="`alert ${type}`">{{message}}</div>
                                             <div class="form-group">
                                                 <input
                                                     type="text"
@@ -75,8 +76,7 @@
 <script>
 import useValidate from "@vuelidate/core";
 import { required,minLength } from "@vuelidate/validators";
-import { mapMutations, mapGetters } from 'vuex'
-import {setCookie} from "@/utils/localStorerage.js";
+import { mapActions,mapGetters } from 'vuex'
 export default {
   name: "loginVue",
   data() {
@@ -86,21 +86,21 @@ export default {
       password: ""
     };
   },
-  computed:mapGetters(["auth"]),
+  computed:mapGetters(["type","message"]),
   validations() {
     return {
       username: { 
         required,
-        minLength:minLength(7),
+        minLength:minLength(4),
     },
       password: { 
         required,
-        minLength:minLength(7) 
+        minLength:minLength(3) 
       }
     };
   },
   methods: {
-    ...mapMutations(["SET_AUTH"]),
+    ...mapActions(["login"]),
     onSubmit() {
       console.log("đã click submit");
       this.v$.$validate(); // checks all inputs
@@ -110,9 +110,7 @@ export default {
           password: this.password
         };
         console.log(user);
-        setCookie("user",this.username,2);
-        this.SET_AUTH(true);
-        window.location.href = '/index'
+        this.login(user);
       }
       console.log(this.v$);
     }

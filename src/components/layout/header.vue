@@ -55,8 +55,8 @@
   <!-- end header -->
 </template>
 <script>
-import { mapGetters,mapMutations } from 'vuex'
-import {removeCookie,getCookie} from "@/utils/localStorerage.js";
+import { mapGetters,mapActions } from 'vuex'
+import {getCookie,removeCookie} from "@/utils/cookiesUtils.js";
 export default {
     name :'HeaderLayout',
     computed:mapGetters(["auth"]),
@@ -71,10 +71,10 @@ export default {
       }
     },
     methods: {
-      ...mapMutations(["SET_AUTH"]),
+      ...mapActions(["logout"]),
       logOut(){
-        removeCookie("user");
         this.authThen = false;
+         removeCookie("user");
         window.location.href = '/'
       }
     },

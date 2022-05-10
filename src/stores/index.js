@@ -1,8 +1,10 @@
 import Vuex from 'vuex'
 import user from './modules/user.js';
+import alert from './modules/alert.js';
 const storeData = {
 	modules: {
-		user
+		user,
+		alert
 	}
 }
 

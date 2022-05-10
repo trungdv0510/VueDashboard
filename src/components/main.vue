@@ -1,9 +1,7 @@
 <template>
   <HeaderLayout />
   <div class="body">
-    
     <router-view/>
-
   </div>
   <!-- <LoginVue /> -->
 </template>
