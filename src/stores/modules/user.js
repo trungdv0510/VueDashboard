@@ -52,6 +52,8 @@ const user = {
                 if (response.status === 200) {
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data, userLogin.username);
+                    dispatch("getAll");
+
                 }
                 else {
                     dispatch("error", "Username or password is not correct");

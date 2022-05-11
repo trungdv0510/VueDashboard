@@ -9,7 +9,8 @@ const testsuite = {
     getters:{
         listTestSuite: state=>state.testsuiteList,
         totalPass:state=>state.testsuiteList.filter(item => item.result == "Pass").lenght,
-        totalFail:state => state.testsuiteList.filter(item => item.result == "Fail").lenght
+        totalFail:state => state.testsuiteList.filter(item => item.result == "Fail").lenght,
+        testSuiteDetails: state=> state.testuiteDetails
     },
     actions:{
         //wirte API to get All value
