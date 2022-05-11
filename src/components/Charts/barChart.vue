@@ -3,6 +3,7 @@
 </template>
 <script>
 import { Chart } from "chart.js";
+import {mapGetters} from "vuex";
 export default {
   name: "bar-chart",
   data() {
@@ -21,7 +22,7 @@ export default {
         options: {
           title: {
             display: true,
-            text: "Test case pass in months",
+            text: "Test case pass with months",
           },
         },
       },
@@ -31,5 +32,6 @@ export default {
     const ctx = document.getElementById("bar-Chart");
     new Chart(ctx, this.dataChart);
   },
+  computed:mapGetters(["testcasePassWithMonth"])
 };
 </script>

@@ -51,11 +51,11 @@
 </template>
 
 <script>
-import { mapActions,mapGetters} from "vuex";
+import { mapActions} from "vuex";
 export default {
-  computed:mapGetters(["listTestSuite"]),
   props:{
       titleName:String,
+      data:Array
   },
   methods:{
     ...mapActions(["findOneByUUID"]),

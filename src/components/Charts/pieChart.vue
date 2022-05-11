@@ -2,6 +2,7 @@
   <canvas id="pie-chart" style="width: 100%; max-width: 700px"></canvas>
 </template>
 <script>
+import {mapGetters} from "vuex";
 import { Chart } from "chart.js";
 export default {
   name: "PieChart",
@@ -32,5 +33,6 @@ export default {
     const ctx = document.getElementById("pie-chart");
     new Chart(ctx, this.chartData);
   },
+  computed:mapGetters(["totalPass","totalFail"])
 };
 </script>
