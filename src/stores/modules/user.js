@@ -53,6 +53,8 @@ const user = {
                     dispatch("getAllTestSuite");
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data, userLogin.username);
+                    dispatch("getAll");
+
                 }
                 else {
                     dispatch("error", "Username or password is not correct");

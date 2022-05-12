@@ -27,7 +27,8 @@
     <div class="itemTest">
       <div class="row">
         <div class="col-sm-11">
-          <ReportNew titleName="Report automation newest"/>
+          <ReportNew titleName="Report automation newest"
+                      :data="testSuiteNews"/>
         </div>
         <div class="col-sm-1"></div>
       </div>
@@ -41,6 +42,7 @@ import PieChart from "@/components/Charts/pieChart.vue";
 import ReportMoth from "@/components/Item/reportMonth.vue";
 import ReportWeek from "@/components/Item/reportWeek.vue";
 import ReportNew from "@/components/Item/reportNews.vue";
+import {mapGetters} from "vuex";
 export default {
   name: "indexAdmin",
   components: {
@@ -50,6 +52,7 @@ export default {
     ReportWeek,
     ReportNew
   },
+  computed:mapGetters(["testSuiteNews"]),
 };
 </script>
 <style>

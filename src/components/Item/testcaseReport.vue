@@ -64,7 +64,8 @@
 </template>
 
 <script>
-import {ref} from "vue"
+import {ref} from "vue";
+import { mapActions,mapGetters} from "vuex";
   export default {
     setup() {
       const detailRender = ref(null);
@@ -236,6 +237,7 @@ import {ref} from "vue"
         detailRender
       }
     },
+    computed:mapGetters(["testSuiteDetails"]),
     methods:{
       changeActive(index,id){
         let  element =  this.$refs.index;
