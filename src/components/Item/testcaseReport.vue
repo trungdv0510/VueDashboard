@@ -65,7 +65,7 @@
 
 <script>
 import {ref} from "vue";
-import { mapActions,mapGetters} from "vuex";
+import { mapGetters} from "vuex";
   export default {
     setup() {
       const detailRender = ref(null);

@@ -13,16 +13,18 @@ const testsuite = {
         totalFail:state => state.testsuiteList.filter(item => item.result == "Fail").lenght,
         testSuiteDetails: state=> state.testuiteDetails,
         testcasePassWithMonth: state=>state.testsuiteList.filter(item => item.result == "Pass"),
-        testSuiteNews:state => state.testsuiteList.slice(state.testsuiteList.lenght, state.testsuiteList.lenght-6)
+        testSuiteNews:state => state.testsuiteList//.slice(state.testsuiteList.lenght, state.testsuiteList.lenght-6)
     },
     actions:{
         //wirte API to get All value
         async getAllTestSuite({commit}){
             try{
-                 await axios.get("user/testsuites").then(response =>{
+                const response =  await axios.get("user/testsuites");
+                if(response.status === 200){
                     console.log("đã chạy vào đây");
                     commit("SET_TESTSUITE",response);
-                 });
+                }
+              
             }
             catch(e){
                 console.log(e);

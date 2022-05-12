@@ -16,7 +16,7 @@
         <div class="option navbar-nav mr-auto mt-2 mt-lg-0 itemNav">
           <li class="nav-item dropdown mr-5 items">
             <a class="nav-link dropdown" href="#" id="dropdownIds" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">User</a>
+              aria-expanded="false">{{username}}</a>
             <div class="dropdown-menu" aria-labelledby="dropdownIds">
               <a class="dropdown-item" href="#">Settings</a>
               <router-link class="dropdown-item" :to="{name:'create'}">Add user</router-link>
@@ -59,7 +59,7 @@ import { mapGetters,mapActions } from 'vuex'
 import {getCookie,removeCookie} from "@/utils/cookiesUtils.js";
 export default {
     name :'HeaderLayout',
-    computed:mapGetters(["auth"]),
+    computed:mapGetters(["auth","username"]),
     setup() {
       const isLogin = getCookie("user");
       let authThen = mapGetters(["auth"]);

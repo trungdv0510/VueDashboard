@@ -16,12 +16,14 @@ const user = {
             password:"",
             permission:"",
             roles:""
-        }
+        },
+        username:getCookie("username"),
     },
     getters: {
         userList: state => state.userList,
         user: state => state.user,
-        userDto: state => state.userDto
+        userDto: state => state.userDto,
+        username: state => state.username
     },
     actions: {
         //write API to get value 
@@ -49,11 +51,13 @@ const user = {
             try {
                 const response = await axios.post("http://localhost:8085/login", userLogin);
                 console.log(response);
+                let username = userLogin.username;
                 if (response.status === 200) {
-                    dispatch("getAllTestSuite");
                     dispatch("success", "Login success");
-                    commit("SET_LOGIN", response.data, userLogin.username);
-                    dispatch("getAll");
+                    commit("SET_LOGIN", response.data);
+                    setCookie("username",username);
+                    dispatch("getAllTestSuite");
+                    //window.location.href = '/index';
 
                 }
                 else {
@@ -76,16 +80,15 @@ const user = {
     },
 
     mutations: {
-        SET_LOGIN(state, data, user) {
-            state.user = userLogin;
+        SET_LOGIN(state, data) {
+            state.user = user;
             setCookie("user", data, 1);
-            localStorage.setItem("user", user);
-            window.location.href = '/index'
 
         },
         SET_LOGOUT(state) {
             state.user = null;
             removeCookie("user");
+            removeCookie("username")
         },
     }
 }
