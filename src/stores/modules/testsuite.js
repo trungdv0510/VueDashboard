@@ -13,9 +13,10 @@ const testsuite = {
     },
     actions:{
         //wirte API to get All value
-        async getAll({commit}){
+        async getAllTestSuite({commit}){
             try{
                  await axios.get("user/testsuites").then(response =>{
+                    console.log("đã chạy vào đây");
                     commit("SET_TESTSUITE",response);
                  });
             }

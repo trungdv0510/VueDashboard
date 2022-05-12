@@ -50,6 +50,7 @@ const user = {
                 const response = await axios.post("http://localhost:8085/login", userLogin);
                 console.log(response);
                 if (response.status === 200) {
+                    dispatch("getAllTestSuite");
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data, userLogin.username);
                 }
