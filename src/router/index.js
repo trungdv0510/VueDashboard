@@ -6,6 +6,7 @@ import reportList from '@/components/pages/reportList.vue';
 import testDetail from '@/components/pages/testDetail.vue';
 import notfound from '@/components/pages/404Error.vue'
 import login from '@/components/pages/loginVue.vue';
+import constanst from '@/utils/contains';
 const routes = [
     {
         path:"/",
@@ -53,7 +54,7 @@ router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
     const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
-    const loggedIn = getCookie('user');
+    const loggedIn = getCookie(constanst.Authorization);
   
     if (authRequired && !loggedIn) {
       return next('/login');

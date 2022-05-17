@@ -5,12 +5,25 @@
 
 <script>
 import ReportNew from "@/components/Item/reportNews.vue";
-import {mapGetters} from "vuex";
+import {mapGetters,useStore} from "vuex";
+//import {onMounted } from "vue";
 export default {
  components: {
     ReportNew
   },
-  computed:mapGetters(["listTestSuite"])
+  setup() {
+      const store = useStore();
+      store.dispatch('getAllTestSuite');
+  },
+  computed:mapGetters(["listTestSuite"]),
+  methods: {
+    getData(){
+         const store = useStore();
+        setInterval(() => {
+          store.dispatch('getAllTestSuite');
+        }, 3000);
+    }
+  },
 }
 </script>
 

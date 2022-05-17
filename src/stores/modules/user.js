@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { removeCookie, setCookie, getCookie } from "@/utils/cookiesUtils.js";
+import contains from '@/utils/contains';
 const userLogin = getCookie("user");
 let isLogin = false;
 if (userLogin) {
@@ -11,13 +12,13 @@ const user = {
         user: userLogin,
         isLogin: isLogin,
         userDto: {
-            email:"",
-            username:"",
-            password:"",
-            permission:"",
-            roles:""
+            email: "",
+            username: "",
+            password: "",
+            permission: "",
+            roles: ""
         },
-        username:getCookie("username"),
+        username: getCookie("username"),
     },
     getters: {
         userList: state => state.userList,
@@ -32,8 +33,8 @@ const user = {
                 await axios.post("admin/user", newUers).then(response => {
                     if (response.status === 200) {
                         dispatch("success", "Insert user success");
-                        }
                     }
+                }
                 );
             }
             catch (error) {
@@ -42,7 +43,7 @@ const user = {
                 if (error.response.status === 403) {
                     dispatch("error", "You are not authorized to perform this function");
                 }
-                else if(error.response.status === 409){
+                else if (error.response.status === 409) {
                     dispatch("error", "Username already exists");
                 }
             }
@@ -55,9 +56,10 @@ const user = {
                 if (response.status === 200) {
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data);
-                    setCookie("username",username);
-                    dispatch("getAllTestSuite");
-                    //window.location.href = '/index';
+                    setCookie(contains.username, username);
+                    // axios.defaults.headers.common['Authorization'] = "Bearer " + response.data;
+                    // dispatch("getAllTestSuite");
+                    window.location.href = '/index';
 
                 }
                 else {
@@ -70,7 +72,7 @@ const user = {
         },
         async logout({ commit }) {
             try {
-                await axios.post("http://localhost:8085/logout").then(commit("SET_LOGOUT"));
+                await axios.get("http://localhost:8085/api/logout").then(commit("SET_LOGOUT"));
             }
             catch (e) {
                 console.log(e);
@@ -82,13 +84,14 @@ const user = {
     mutations: {
         SET_LOGIN(state, data) {
             state.user = user;
-            setCookie("user", data, 1);
+            setCookie(contains.Authorization, data, 1);
 
         },
         SET_LOGOUT(state) {
             state.user = null;
-            removeCookie("user");
-            removeCookie("username")
+            removeCookie(contains.Authorization);
+            removeCookie(contains.username);
+            window.location.href = '/'
         },
     }
 }

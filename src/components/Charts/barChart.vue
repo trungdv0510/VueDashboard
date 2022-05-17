@@ -6,16 +6,20 @@ import { Chart } from "chart.js";
 import {mapGetters} from "vuex";
 export default {
   name: "bar-chart",
-  data() {
+  props:{
+    months:Array,
+    data:Array
+  },
+  data(props) {
     return {
       dataChart: {
         type: "bar",
         data: {
-          labels: ["Italy", "France", "Spain", "USA", "Argentina"],
+          labels: props.months,
           datasets: [
             {
               backgroundColor: ["red", "green", "blue", "orange", "brown"],
-              data: [55, 49, 44, 24, 15],
+              data: props.data,
             },
           ],
         },

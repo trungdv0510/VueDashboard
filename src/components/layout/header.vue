@@ -56,12 +56,13 @@
 </template>
 <script>
 import { mapGetters,mapActions } from 'vuex'
-import {getCookie,removeCookie} from "@/utils/cookiesUtils.js";
+import {getCookie} from "@/utils/cookiesUtils.js";
+import contains from '@/utils/contains.js';
 export default {
     name :'HeaderLayout',
     computed:mapGetters(["auth","username"]),
     setup() {
-      const isLogin = getCookie("user");
+      const isLogin = getCookie(contains.Authorization);
       let authThen = mapGetters(["auth"]);
       if(isLogin){
          authThen = true;
@@ -73,9 +74,8 @@ export default {
     methods: {
       ...mapActions(["logout"]),
       logOut(){
-        this.authThen = false;
-         removeCookie("user");
-        window.location.href = '/'
+          this.authThen = false;
+         this.logout();
       }
     },
 }
