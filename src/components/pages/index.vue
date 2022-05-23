@@ -4,8 +4,7 @@
     <div class="chart">
       <div class="row">
         <div class="col-sm-4">
-          <PieChart :totalPass="totalPass"
-                    :totalFail="totalFail"/>
+          <PieChart :PassFail="passFail"/>
         </div>
         <div class="col-sm-2"></div>
         <div class="col-sm-4 mt-3">
@@ -46,6 +45,7 @@ import ReportNew from "@/components/Item/reportNews.vue";
 import { mapGetters, mapActions } from "vuex";
 import { useStore } from 'vuex';
 import {onMounted,computed } from "vue";
+import { watch } from 'fs';
 export default {
   name: "indexAdmin",
   components: {
@@ -58,18 +58,22 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch('getAllTestSuite');
-    const testSuiteNews = computed(() => store.getters.testSuiteNews);
+    const testSuiteNews = computed(() => store.getters.listTestSuite);
     const totalPass = computed(() => store.getters.totalPass);
     const totalFail = computed(() => store.getters.totalFail);
+    let passFail = [totalPass.value,totalFail.value];
+    console.log(passFail);
     onMounted(() => {
       setInterval(() => {
        store.dispatch('getAllTestSuite'); 
-      }, 1000);
+      }, 3000);
+    });
+    watch([totalPass.value,totalFail.value],(newPass,newFail)=>{
+        console.log("Gía trị watch "+newPass +"và "+newFail)
     })
     return {
       testSuiteNews,
-      totalPass,
-      totalFail
+      passFail
     }
   },
   computed: mapGetters(["testSuiteNews"]),

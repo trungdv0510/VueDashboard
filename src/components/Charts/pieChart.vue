@@ -4,57 +4,56 @@
 <script>
 import { Chart } from "chart.js";
 import { watch } from "vue";
+
 export default {
   name: "PieChart",
   props: {
-    totalPass: Number,
-    totalFail: Number
+    PassFail: Array,
   },
   data(props) {
-    console.log(props.totalPass);
-    console.log(props.totalFail);
-    let passData = props.totalPass;
-    let failData = props.totalFail;
+    let passFail = props.PassFail;
     watch(() => {
-      passData = props.totalPass;
-      failData = props.totalFail;
-      console.log("Gía trị sau khi wacth " + passData);
-      console.log("Gía trị sau khi wacth " + failData);
-      //this._chart.destroy();
-      this.pieChart(passData,failData);
+      passFail = props.PassFail;
     });
     return {
-        passData,failData
+      passFail 
     }
   },
-  mounted() {
-    const ctx = document.getElementById("pie-chart");
-    new Chart(ctx, this.pieChart(this.passData,this.failData));
+  mounted() { 
+    this.pieChart(this.passFail);
   },
-  methods: {
-    pieChart: function (passData,failData) {
-      return {
-        chartData: {
-          type: "pie",
-          data: {
-            labels: ["Pass", "fail"],
-            datasets: [
-              {
-                label: "case",
-                backgroundColor: ["#3e95cd", "#8e5ea2"],
-                data: [passData, failData],
-              },
-            ],
-          },
-          options: {
-            title: {
-              display: true,
-              text: "Test case report",
-            },
-          },
-        },
+  watch:{
+    'PassFail':{
+      deep:true,
+      handler:function(newData){
+        this.pieChart(newData)
       }
     }
+      
+  },
+  methods: {
+    pieChart: (passFail) => {
+      const ctx = document.getElementById("pie-chart");
+      new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Pass", "fail"],
+          datasets: [
+            {
+              label: "case",
+              backgroundColor: ["#3e95cd", "#8e5ea2"],
+              data: passFail,
+            },
+          ],
+        },
+        options: {
+          title: {
+            display: true,
+            text: "Test case report",
+          },
+        },
+      });
+    },
   },
 };
 </script>

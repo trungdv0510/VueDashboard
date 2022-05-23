@@ -65,8 +65,18 @@
 
 <script>
 import {ref} from "vue";
-import { mapGetters} from "vuex";
+
   export default {
+    props:{
+      testCase:{
+        type:Array,
+        required: true
+      },
+      testLog:{
+        type:Array,
+        required: true
+      }
+    },
     setup() {
       const detailRender = ref(null);
        const testcase = ref([
@@ -237,7 +247,6 @@ import { mapGetters} from "vuex";
         detailRender
       }
     },
-    computed:mapGetters(["testSuiteDetails"]),
     methods:{
       changeActive(index,id){
         let  element =  this.$refs.index;

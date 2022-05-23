@@ -2,8 +2,9 @@ import axios from 'axios'
 const testsuite = {
     state: {
         testsuiteList: [],
-        testSuiteNews: [],
-        testSuiteDetails: [],
+        testSuiteDetails: {},
+        testcaseWithTestSuiteUUID:[],
+        testlogWithTestcaseUUID:[],
     },
     getters: {
         listTestSuite: state => state.testsuiteList,
@@ -25,9 +26,11 @@ const testsuite = {
             });
             return count;
         },
-        testSuiteDetails: state => state.testuiteDetails,
+        testSuiteDetails: state => state.testSuiteDetails,
         testcasePassWithMonth: state => state.testsuiteList.filter(item => item.result == "Pass"),
-        testSuiteNews: state => state.testsuiteList//.slice(state.testsuiteList.lenght, state.testsuiteList.lenght-6)
+        testcaseWithTestSuiteUUID: state=>state.testcaseWithTestSuiteUUID,
+        testlogWithTestcaseUUID: state=>state.testlogWithTestcaseUUID,
+
     },
     actions: {
         //wirte API to get All value
@@ -45,9 +48,10 @@ const testsuite = {
         },
         async findOneByUUID({ commit }, UUIDTestSuite) {
             try {
-                await axios.get(`user/testsuites/${UUIDTestSuite}`).then(response => {
-                    commit("SET_TESTDETAIL", response);
-                });
+               const response = await axios.get(`user/testsuites/${UUIDTestSuite}`);
+               if (response.status === 200) {
+                commit("SET_TESTDETAIL", response.data);
+               }
             }
             catch (e) {
                 console.log(e);
@@ -58,8 +62,12 @@ const testsuite = {
         SET_TESTSUITE(state, testsuiteList) {
             state.testsuiteList =  JSON.parse(JSON.stringify(testsuiteList));
         },
-        SET_TESTDETAIL(state, testSuiteDetails) {
-            state.testSuiteDetails = testSuiteDetails
+        SET_TESTDETAIL(state, testSuite) {
+            console.log(testSuite);
+            state.testSuiteDetails = JSON.parse(JSON.stringify(testSuite.testSuiteDTO));
+            state.testcaseWithTestSuiteUUID=  JSON.parse(JSON.stringify(testSuite.testCaseDTOs))
+            state.testlogWithTestcaseUUID=  JSON.parse(JSON.stringify(testSuite.testLogDTOs));
+            console.log("Gía trị của state "+state.testSuiteDetails);
         }
     }
 }
