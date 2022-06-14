@@ -47,7 +47,8 @@
           <label for="enddate" class="mr-2 text-white">End date :</label>
           <input class="form-control mr-sm-2 " type="date" value="2018-08-22" id="enddate">
         </div>
-        <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
+        <router-link :to="{name:'report'}" class="btn btn-danger my-2 my-sm-0">Search</router-link>
+        <!-- <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button> -->
       </form>
 
     </div>

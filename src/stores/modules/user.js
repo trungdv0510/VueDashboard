@@ -51,14 +51,11 @@ const user = {
         async login({ commit, dispatch }, userLogin) {
             try {
                 const response = await axios.post("http://localhost:8085/login", userLogin);
-                console.log(response);
                 let username = userLogin.username;
                 if (response.status === 200) {
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data);
-                    setCookie(contains.username, username);
-                    // axios.defaults.headers.common['Authorization'] = "Bearer " + response.data;
-                    // dispatch("getAllTestSuite");
+                    setCookie(contains.username, username,1);
                     window.location.href = '/index';
 
                 }

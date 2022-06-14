@@ -3,36 +3,37 @@
 </template>
 <script>
 import { Chart } from "chart.js";
-import { watch } from "vue";
-
+//import { watch } from "vue";
 export default {
   name: "PieChart",
   props: {
-    PassFail: Array,
+    Pass: Number,
+    Fail: Number,
   },
   data(props) {
-    let passFail = props.PassFail;
-    watch(() => {
-      passFail = props.PassFail;
-    });
+    let pass = props.Pass;
+    let fail = props.Fail;
+   
     return {
-      passFail 
+      pass,
+      fail
     }
   },
-  mounted() { 
-    this.pieChart(this.passFail);
+  mounted() {
+    this.pieChart(this.pass, this.fail);
   },
-  watch:{
-    'PassFail':{
-      deep:true,
-      handler:function(newData){
-        this.pieChart(newData)
-      }
+  watch: {
+    Pass: function (newValue) {
+      this.pass = newValue;
+      console.log("Gia strij của pass là " + this.pass);
+    },
+    Fail: function (newValue) {
+      this.fail = newValue
     }
-      
+
   },
   methods: {
-    pieChart: (passFail) => {
+    pieChart: (pass, fail) => {
       const ctx = document.getElementById("pie-chart");
       new Chart(ctx, {
         type: "pie",
@@ -42,7 +43,7 @@ export default {
             {
               label: "case",
               backgroundColor: ["#3e95cd", "#8e5ea2"],
-              data: passFail,
+              data: [pass, fail],
             },
           ],
         },

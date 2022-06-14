@@ -1,19 +1,19 @@
 <template>
-  <div style="width:200%">
+  <div style="width:100%">
     <h3 class="borderItems mt-5">{{ titleName }}</h3>
-    <table class="table table-striped table-inverse tableResult table-bordered">
+    <table class="table  tableResult ">
       <thead class="thead-inverse">
         <tr>
-          <th>ID</th>
+          <th>#</th>
           <th>Test case name</th>
-          <th>Pass percentage</th>
+          <th>Percentage</th>
           <th>Run time</th>
           <th>Date</th>
           <th>Result</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in getSixDataInList(data)" :key="item.id">
+        <tr v-for="(item, index) in report" :key="item.id">
           <td scope="row">{{ index + 1 }}</td>
           <td>
             <router-link :to="{ name: 'reportDetail', params: { id: item.uuid } }">
@@ -23,13 +23,16 @@
           <td>
             <div class="progress">
               <div class="progress-bar bg-success" role="progressbar"
-                :style="{ 'width': getPassPercentage(item.testcasePass, item.testcaseFail) + '%' }" aria-valuenow="100"
-                aria-valuemin="0" aria-valuemax="100">
-                {{ getPassPercentage(item.testcasePass, item.testcaseFail) }}
-              </div>
+                :style="{ 'width': getPassPercentage(item.testcasePass, item.testcaseFail) + '%' }"
+                :aria-valuenow="{ 'width': getPassPercentage(item.testcasePass, item.testcaseFail) }" aria-valuemin="0"
+                aria-valuemax="100">{{ item.testcasePass }}</div>
+              <div class="progress-bar bg-danger" role="progressbar"
+                :style="{ 'width': getPassPercentage(item.testcaseFail, item.testcasePass) + '%' }"
+                :aria-valuenow="{ 'width': getPassPercentage(item.testcasePass, item.testcaseFail) }" aria-valuemin="0"
+                aria-valuemax="100"> {{ item.testcaseFail }}</div>
             </div>
           </td>
-          <td scope="row">{{ item.runTime }}</td>
+          <td scope="row">{{ millisToMinutesAndSeconds(item.runTime) }} s</td>
           <td>
             <p>{{ item.dateRun }}</p>
           </td>
@@ -43,31 +46,32 @@
 </template>
 
 <script>
+import { passPercentage, millisToMinutesAndSeconds } from '@/utils/functionUtils.js'
 export default {
   props: {
     titleName: String,
     data: Array
   },
+  data(props) {
+    let report = props.data;
+    console.log("Gía trị của report là " + props.data)
+    return {
+      report
+    }
+  },
+  watch: {
+    data: function (newData) {
+      console.log(newData);
+      this.report = newData;
+    },
+  },
   methods: {
     getPassPercentage(totalPass, totalFail) {
-      let pass = parseInt(totalPass);
-      let fail = parseInt(totalFail);
-      let totalTest = pass + fail;
-      return parseInt((pass / totalTest) * 100)
+      return passPercentage(totalPass, totalFail);
     },
-    getSixDataInList(data) {
-      let listData = [];
-      let arrayData = JSON.parse(JSON.stringify(data));
-      //console.log(JSON.parse(JSON.stringify(data)));
-      //console.log(arrayData.length);
-      if (arrayData.length != 0) {
-        for (let i = arrayData.length-1; i >= 0; i--) {
-          if (listData.length < 6) {
-            listData.push(arrayData[i]);
-          }
-        }
-      }
-      return listData;
+
+    millisToMinutesAndSeconds(duration) {
+      return millisToMinutesAndSeconds(duration);
     }
   }
 
@@ -75,4 +79,18 @@ export default {
 </script>
 
 <style>
+span.sr-only {
+  position: initial;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 </style>

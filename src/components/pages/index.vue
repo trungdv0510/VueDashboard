@@ -4,12 +4,11 @@
     <div class="chart">
       <div class="row">
         <div class="col-sm-4">
-          <PieChart :PassFail="passFail"/>
+          <PieChart :Pass="totalPass" :Fail="totalFail" />
         </div>
         <div class="col-sm-2"></div>
         <div class="col-sm-4 mt-3">
-          <BarChart :months="['1', '2', '3', '4', '5']"
-                    :data='[551, 492, 494, 414, 635]'/>
+          <BarChart :months="['1', '2', '3', '4', '5']" :data='[551, 492, 494, 414, 635]' />
         </div>
         <div class="col-sm-1"></div>
       </div>
@@ -28,7 +27,7 @@
     <div class="itemTest">
       <div class="row">
         <div class="col-sm-11">
-          <ReportNew titleName="Report automation newest" :data="testSuiteNews" />
+          <ReportNew titleName="Report automation newest" :data="getSixDataInList" />
         </div>
         <div class="col-sm-1"></div>
       </div>
@@ -42,10 +41,9 @@ import PieChart from "@/components/Charts/pieChart.vue";
 import ReportMoth from "@/components/Item/reportMonth.vue";
 import ReportWeek from "@/components/Item/reportWeek.vue";
 import ReportNew from "@/components/Item/reportNews.vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 import { useStore } from 'vuex';
-import {onMounted,computed } from "vue";
-import { watch } from 'fs';
+import { onMounted } from "vue";
 export default {
   name: "indexAdmin",
   components: {
@@ -55,28 +53,16 @@ export default {
     ReportWeek,
     ReportNew
   },
-  setup() {
+  data() {
     const store = useStore();
     store.dispatch('getAllTestSuite');
-    const testSuiteNews = computed(() => store.getters.listTestSuite);
-    const totalPass = computed(() => store.getters.totalPass);
-    const totalFail = computed(() => store.getters.totalFail);
-    let passFail = [totalPass.value,totalFail.value];
-    console.log(passFail);
     onMounted(() => {
       setInterval(() => {
-       store.dispatch('getAllTestSuite'); 
+        store.dispatch('getAllTestSuite');
       }, 3000);
     });
-    watch([totalPass.value,totalFail.value],(newPass,newFail)=>{
-        console.log("Gía trị watch "+newPass +"và "+newFail)
-    })
-    return {
-      testSuiteNews,
-      passFail
-    }
   },
-  computed: mapGetters(["testSuiteNews"]),
+  computed: mapGetters(["totalPass","totalFail","getSixDataInList"]),
   methods: {
     ...mapActions(["getAllTestSuite"]),
   },
@@ -86,5 +72,9 @@ export default {
 .borderItems {
   padding-bottom: 10px;
   border-bottom: 2px solid gray;
+}
+
+.itemTest {
+  width: 85%;
 }
 </style>

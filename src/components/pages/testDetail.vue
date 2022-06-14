@@ -24,13 +24,15 @@ export default {
     },
     data(){
         const id = this.$route.params.id;
-        console.log("beforeMount");
         const store = useStore();
         store.dispatch("findOneByUUID",id);
         const testSuite = computed(() => store.getters.testSuiteDetails);
         const testcaseWithTestSuiteUUID = computed(() => store.getters.testcaseWithTestSuiteUUID);
         const testlogWithTestcaseUUID = computed(() => store.getters.testlogWithTestcaseUUID);
-        console.log("Gía trị trong mount là"+testSuite.value);
+        console.log("Gía trị test log tìm được là ");
+        console.log(testcaseWithTestSuiteUUID);
+        console.log("Gía trị test case tìm được là ");
+        console.log(testlogWithTestcaseUUID);
         return{
            id,
            testSuite,

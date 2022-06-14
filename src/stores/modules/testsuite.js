@@ -1,4 +1,5 @@
-import axios from 'axios'
+import axios from 'axios';
+import { passPercentage, millisToMinutesAndSeconds } from '@/utils/functionUtils.js';
 const testsuite = {
     state: {
         testsuiteList: [],
@@ -11,7 +12,7 @@ const testsuite = {
         totalPass: state => {
             let count = 0
             state.testsuiteList.forEach(element => {
-                if(element.result == "Pass"){
+                if(element.result == "PASS"){
                     count++;
                 }
             });
@@ -20,7 +21,7 @@ const testsuite = {
         totalFail: state => {
             let count = 0
             state.testsuiteList.forEach(element => {
-                if(element.result == "Fail"){
+                if(element.result == "FAIL"){
                     count++;
                 }
             });
@@ -30,6 +31,38 @@ const testsuite = {
         testcasePassWithMonth: state => state.testsuiteList.filter(item => item.result == "Pass"),
         testcaseWithTestSuiteUUID: state=>state.testcaseWithTestSuiteUUID,
         testlogWithTestcaseUUID: state=>state.testlogWithTestcaseUUID,
+        getSixDataInList:state => {
+            console.log(" Gía trị data là ");
+            console.log(state.testsuiteList);
+            let listData = [];
+            if (state.testsuiteList != null || state.testsuiteList != undefined) {
+              let arrayData = state.testsuiteList;
+              if (arrayData.length != 0) {
+                for (let i = arrayData.length - 1; i >= 0; i--) {
+                  if (listData.length < 6) {
+                    listData.push(arrayData[i]);
+                  }
+                }
+              }
+            }
+            return listData;
+        },
+        convertDataToObject: state => {
+            let listObject = [];
+            if (state.testsuiteList != null) {
+                state.testsuiteList.forEach(element => {
+                let object = {
+                  "suiteName": [element.suiteName, element.uuid],
+                  "percentage": [element.testcasePass, element.testcaseFail, passPercentage(element.testcasePass, element.testcaseFail), passPercentage(element.testcaseFail, element.testcasePass)],
+                  "runTime": millisToMinutesAndSeconds(element.runTime),
+                  "dateRun": element.dateRun,
+                  "result": element.result,
+                }
+                listObject.push(object);
+              });
+            }
+            return listObject;
+          }
 
     },
     actions: {
@@ -63,11 +96,9 @@ const testsuite = {
             state.testsuiteList =  JSON.parse(JSON.stringify(testsuiteList));
         },
         SET_TESTDETAIL(state, testSuite) {
-            console.log(testSuite);
             state.testSuiteDetails = JSON.parse(JSON.stringify(testSuite.testSuiteDTO));
             state.testcaseWithTestSuiteUUID=  JSON.parse(JSON.stringify(testSuite.testCaseDTOs))
             state.testlogWithTestcaseUUID=  JSON.parse(JSON.stringify(testSuite.testLogDTOs));
-            console.log("Gía trị của state "+state.testSuiteDetails);
         }
     }
 }
