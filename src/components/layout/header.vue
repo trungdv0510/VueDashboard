@@ -41,14 +41,14 @@
       <form class="form-inline my-2 my-lg-0 ml-5 search">
         <div class="form-group">
           <label for="startdate" class="mr-2 text-white">Start date :</label>
-          <input class="form-control mr-sm-2 " type="date" value="2018-07-22" id="startdate">
+          <input class="form-control mr-sm-2 " type="date" v-model="startDate" id="startdate">
         </div>
         <div class="form-group">
           <label for="enddate" class="mr-2 text-white">End date :</label>
-          <input class="form-control mr-sm-2 " type="date" value="2018-08-22" id="enddate">
+          <input class="form-control mr-sm-2 " type="date" v-model="endDate" id="enddate">
         </div>
-        <router-link :to="{name:'report'}" class="btn btn-danger my-2 my-sm-0">Search</router-link>
-        <!-- <button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button> -->
+        <!-- <router-link :to="{name:'report'}" class="btn btn-danger my-2 my-sm-0" @click="getDate()">Search</router-link> -->
+        <button class="btn btn-danger my-2 my-sm-0" type="button" @click="getDate()">Search</button>
       </form>
 
     </div>
@@ -64,19 +64,30 @@ export default {
     computed:mapGetters(["auth","username"]),
     setup() {
       const isLogin = getCookie(contains.Authorization);
+      let date = new Date().toLocaleDateString();
+      const startDate = date;
+      const endDate = date;
       let authThen = mapGetters(["auth"]);
       if(isLogin){
          authThen = true;
       }
       return {
-        authThen
+        authThen,
+        startDate,
+        endDate
       }
     },
     methods: {
-      ...mapActions(["logout"]),
+      ...mapActions(["logout","findTestSuiteWithDate"]),
       logOut(){
-          this.authThen = false;
-         this.logout();
+        this.authThen = false;
+        this.logout();
+      },
+      getDate(){
+        // trungdv: change state when search date
+         let urlApi = `/user/testsuites/findbydate?startdate=${this.startDate}&enddate=${this.endDate}`
+        this.findTestSuiteWithDate(urlApi);
+        this.$router.push({ name: 'reportDate',params:{startdate:this.startDate,enddate:this.endDate} })
       }
     },
 }

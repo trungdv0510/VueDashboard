@@ -1,33 +1,43 @@
 <template>
   <!-- <ReportNew titleName="Report automation list" :data="listTestSuite" /> -->
-  <DataTableVue titleName="Report automation list" 
-                :columns="columns"
-                :dataColumns="dataColumns"
-                :columnDefs="columnDefs"
-                :dataObject="convertDataToObject"
-               />
+  <DataTableVue titleName="Report automation list" :columns="columns" :dataColumns="dataColumns"
+    :columnDefs="columnDefs" :dataObject="convertDataToObject" />
 </template>
 
 <script>
 //import ReportNew from "@/components/Item/reportNews.vue";
-import { mapGetters,useStore } from "vuex";
+import { mapGetters, useStore, mapActions } from "vuex";
 import DataTableVue from "../Item/DataTable.vue";
-import {onMounted } from "vue";
+//import { onMounted } from "vue";
 export default {
   components: {
     //ReportNew,
     DataTableVue
   },
-  setup() {
-    const store = useStore();
-    store.dispatch('getAllTestSuite');
-    onMounted(() => {
-      setInterval(() => {
-        store.dispatch('getAllTestSuite');
-      }, 3000);
-    });
-  },
+
   data() {
+    //trungdv add search with start date and end date
+    const startdate = this.$route.params.startdate;
+    const endDate = this.$route.params.enddate;
+    const store = useStore();
+    // trungdv: check find testsuite with date or not
+    if (startdate && endDate) {
+      let urlApi = `/user/testsuites/findbydate?startdate=${startdate}&enddate=${endDate}`
+      this.findTestSuiteWithDate(urlApi);
+      // onMounted(() => {
+      //   setInterval(() => {
+      //     this.findTestSuiteWithDate(urlApi);
+      //   }, 3000);
+      // });
+    }
+    else {
+      store.dispatch('getAllTestSuite');
+      // onMounted(() => {
+      //   setInterval(() => {
+      //     store.dispatch('getAllTestSuite');
+      //   }, 3000);
+      // });
+    }
     // define column
     const columns = ["Test case name", "Percentage", "Run time", "Date", "Result"];
     //define data column 
@@ -45,7 +55,7 @@ export default {
           "targets": 0,
           "data": "suiteName",
           "render": function (data) {
-            return ` <a href="/report/`+data[1]+`" class="">`+data[0]+`</a>`;
+            return ` <a href="/report/` + data[1] + `" class="">` + data[0] + `</a>`;
           }
         },
         {
@@ -68,25 +78,27 @@ export default {
           "targets": 4,
           "data": "result",
           "render": function (data) {
-            if(data == "FAIL"){
-              return   `<p class="btn btn-danger"> `+data+`</p>`
+            if (data == "FAIL") {
+              return `<p class="btn btn-danger"> ` + data + `</p>`
             }
-            else{
-               return `<p class="btn btn-success"> `+data+`</p>`;
+            else {
+              return `<p class="btn btn-success"> ` + data + `</p>`;
             }
-           
+
           }
         }
       ]
     return {
       columns,
       dataColumns,
-      columnDefs
+      columnDefs,
+      startdate,
+      endDate
     }
   },
-  computed: mapGetters(["listTestSuite","convertDataToObject"]),
+  computed: mapGetters(["listTestSuite", "convertDataToObject"]),
   methods: {
-  
+    ...mapActions(["findTestSuiteWithDate"])
   },
 }
 </script>

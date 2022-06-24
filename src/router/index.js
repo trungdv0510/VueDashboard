@@ -38,6 +38,11 @@ const routes = [
         path:"/index",
         redirect:"/",
     },
+    {
+        path:"/report?startdate=:startdate&enddate=:enddate",
+        name:"reportDate",
+        component: reportList
+    },
     //catch all 404
     {
         path:'/:catchAll(.*)*',

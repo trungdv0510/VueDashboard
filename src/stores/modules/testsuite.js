@@ -89,11 +89,23 @@ const testsuite = {
             catch (e) {
                 console.log(e);
             }
+        },
+        async findTestSuiteWithDate({commit}, apiUrl){
+            try{
+                const response = await axios.get(apiUrl);
+                if( response.status==200 ){
+                    commit("SET_TESTSUITE",response.data);
+                }
+            }
+            catch(e){
+                console.log(e);
+            }
         }
     },
     mutations: {
         SET_TESTSUITE(state, testsuiteList) {
             state.testsuiteList =  JSON.parse(JSON.stringify(testsuiteList));
+            console.log(state.testsuiteList);
         },
         SET_TESTDETAIL(state, testSuite) {
             state.testSuiteDetails = JSON.parse(JSON.stringify(testSuite.testSuiteDTO));
