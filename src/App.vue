@@ -13,5 +13,8 @@ export default {
 </script>
 
 <style>
-
+.alertClose {
+    display: block;
+    font-size: 20px;
+}
 </style>

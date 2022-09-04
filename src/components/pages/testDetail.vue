@@ -29,10 +29,6 @@ export default {
         const testSuite = computed(() => store.getters.testSuiteDetails);
         const testcaseWithTestSuiteUUID = computed(() => store.getters.testcaseWithTestSuiteUUID);
         const testlogWithTestcaseUUID = computed(() => store.getters.testlogWithTestcaseUUID);
-        console.log("Gía trị test log tìm được là ");
-        console.log(testcaseWithTestSuiteUUID);
-        console.log("Gía trị test case tìm được là ");
-        console.log(testlogWithTestcaseUUID);
         return{
            id,
            testSuite,

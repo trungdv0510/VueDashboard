@@ -6,7 +6,9 @@ import reportList from '@/components/pages/reportList.vue';
 import testDetail from '@/components/pages/testDetail.vue';
 import notfound from '@/components/pages/404Error.vue'
 import login from '@/components/pages/loginVue.vue';
-import constanst from '@/utils/contains';
+import {constanst} from '@/utils/contains.js';
+import regresstionTest from '@/components/pages/reportRegresstion.vue';
+import setting from "@/components/pages/setting.vue";
 const routes = [
     {
         path:"/",
@@ -42,6 +44,16 @@ const routes = [
         path:"/report?startdate=:startdate&enddate=:enddate",
         name:"reportDate",
         component: reportList
+    },
+    {
+        path:"/regresstion",
+        name:"regresstion",
+        component: regresstionTest
+    },
+    {
+        path:"/setting",
+        name:"setting",
+        component: setting
     },
     //catch all 404
     {

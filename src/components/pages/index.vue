@@ -43,7 +43,6 @@ import ReportWeek from "@/components/Item/reportWeek.vue";
 import ReportNew from "@/components/Item/reportNews.vue";
 import { mapActions,mapGetters } from "vuex";
 import { useStore } from 'vuex';
-//import { onMounted } from "vue";
 export default {
   name: "indexAdmin",
   components: {
@@ -56,11 +55,6 @@ export default {
   data() {
     const store = useStore();
     store.dispatch('getAllTestSuite');
-    // onMounted(() => {
-    //   setInterval(() => {
-    //     store.dispatch('getAllTestSuite');
-    //   }, 3000);
-    // });
   },
   computed: mapGetters(["totalPass","totalFail","getSixDataInList"]),
   methods: {
@@ -73,7 +67,6 @@ export default {
   padding-bottom: 10px;
   border-bottom: 2px solid gray;
 }
-
 .itemTest {
   width: 85%;
 }

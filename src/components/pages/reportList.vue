@@ -5,13 +5,10 @@
 </template>
 
 <script>
-//import ReportNew from "@/components/Item/reportNews.vue";
 import { mapGetters, useStore, mapActions } from "vuex";
 import DataTableVue from "../Item/DataTable.vue";
-//import { onMounted } from "vue";
 export default {
   components: {
-    //ReportNew,
     DataTableVue
   },
 
@@ -24,19 +21,9 @@ export default {
     if (startdate && endDate) {
       let urlApi = `/user/testsuites/findbydate?startdate=${startdate}&enddate=${endDate}`
       this.findTestSuiteWithDate(urlApi);
-      // onMounted(() => {
-      //   setInterval(() => {
-      //     this.findTestSuiteWithDate(urlApi);
-      //   }, 3000);
-      // });
     }
     else {
       store.dispatch('getAllTestSuite');
-      // onMounted(() => {
-      //   setInterval(() => {
-      //     store.dispatch('getAllTestSuite');
-      //   }, 3000);
-      // });
     }
     // define column
     const columns = ["Test case name", "Percentage", "Run time", "Date", "Result"];
@@ -84,7 +71,6 @@ export default {
             else {
               return `<p class="btn btn-success"> ` + data + `</p>`;
             }
-
           }
         }
       ]

@@ -32,8 +32,6 @@ const testsuite = {
         testcaseWithTestSuiteUUID: state=>state.testcaseWithTestSuiteUUID,
         testlogWithTestcaseUUID: state=>state.testlogWithTestcaseUUID,
         getSixDataInList:state => {
-            console.log(" Gía trị data là ");
-            console.log(state.testsuiteList);
             let listData = [];
             if (state.testsuiteList != null || state.testsuiteList != undefined) {
               let arrayData = state.testsuiteList;

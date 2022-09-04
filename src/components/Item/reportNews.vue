@@ -37,7 +37,7 @@
             <p>{{ item.dateRun }}</p>
           </td>
           <td>
-            <p :class="item.result === 'Pass' ? 'btn btn-success' : 'btn btn-danger'">{{ item.result }}</p>
+            <p :class="item.result == 'PASS' ? 'btn btn-success' : 'btn btn-danger'">{{ item.result }}</p>
           </td>
         </tr>
       </tbody>
@@ -54,14 +54,12 @@ export default {
   },
   data(props) {
     let report = props.data;
-    console.log("Gía trị của report là " + props.data)
     return {
       report
     }
   },
   watch: {
     data: function (newData) {
-      console.log(newData);
       this.report = newData;
     },
   },

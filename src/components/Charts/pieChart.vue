@@ -13,7 +13,7 @@ export default {
   data(props) {
     let pass = props.Pass;
     let fail = props.Fail;
-   
+
     return {
       pass,
       fail
@@ -21,11 +21,16 @@ export default {
   },
   mounted() {
     this.pieChart(this.pass, this.fail);
+    if (this.pass == 0 && this.fail == 0) {
+        setTimeout(()=>{
+          this.pieChart(this.pass, this.fail);
+        }, 1000);
+    }
+
   },
   watch: {
     Pass: function (newValue) {
       this.pass = newValue;
-      console.log("Gia strij của pass là " + this.pass);
     },
     Fail: function (newValue) {
       this.fail = newValue

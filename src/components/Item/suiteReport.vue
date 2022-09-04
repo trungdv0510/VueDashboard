@@ -14,7 +14,7 @@
           <td style="background-color: gray" class="text-light">
             <i>Date run:</i> <br>{{ dateTime(testSuite.createDate) }}
           </td>
-          <td class="text-light" :class="testSuite.result === 'Pass' ? 'btn-success' : 'btn-danger'">
+          <td class="text-light" :class="testSuite.result === 'PASS' ? 'btn-success' : 'btn-danger'">
             <i> Result :</i> <br>
             {{ testSuite.result }}
           </td>

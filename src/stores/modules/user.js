@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { removeCookie, setCookie, getCookie } from "@/utils/cookiesUtils.js";
-import contains from '@/utils/contains';
+import {constanst} from '@/utils/contains.js';
 const userLogin = getCookie("user");
 let isLogin = false;
 if (userLogin) {
@@ -55,7 +55,7 @@ const user = {
                 if (response.status === 200) {
                     dispatch("success", "Login success");
                     commit("SET_LOGIN", response.data);
-                    setCookie(contains.username, username,1);
+                    setCookie(constanst.username, username,1);
                     window.location.href = '/index';
 
                 }
@@ -81,13 +81,13 @@ const user = {
     mutations: {
         SET_LOGIN(state, data) {
             state.user = user;
-            setCookie(contains.Authorization, data, 1);
+            setCookie(constanst.Authorization, data, 1);
 
         },
         SET_LOGOUT(state) {
             state.user = null;
-            removeCookie(contains.Authorization);
-            removeCookie(contains.username);
+            removeCookie(constanst.Authorization);
+            removeCookie(constanst.username);
             window.location.href = '/'
         },
     }

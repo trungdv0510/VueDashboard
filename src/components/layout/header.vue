@@ -2,13 +2,9 @@
     <!-- header  -->
   <nav class="navbar navbar-expand-sm navbar-light menuItem" v-if="authThen == true">
      <router-link to="/" class="navbar-brand ml-4 logo">
-        <i class="fab fa-adn fa-2x"></i>
-        <p class="float-right ml-2 mt-1">Automation <i>v1.0</i></p>
+        <i class="fab fa-adn fa-2x mb-3"></i>
+        <p class="float-right ml-2 mt-1" data-text="Automation v1.0">Automation v1.0</p>
       </router-link>
-    <!-- <a class="navbar-brand ml-4 logo" href="index.html">
-      <i class="fab fa-adn fa-2x"></i>
-      <p class="float-right ml-2 mt-1">Automation <i>v1.0</i></p>
-    </a> -->
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
       aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
     <div class="collapse navbar-collapse ml-5" id="collapsibleNavId">
@@ -18,7 +14,7 @@
             <a class="nav-link dropdown" href="#" id="dropdownIds" data-toggle="dropdown" aria-haspopup="true"
               aria-expanded="false">{{username}}</a>
             <div class="dropdown-menu" aria-labelledby="dropdownIds">
-              <a class="dropdown-item" href="#">Settings</a>
+              <router-link class="dropdown-item" :to="{name:'setting'}">Settings</router-link>
               <router-link class="dropdown-item" :to="{name:'create'}">Add user</router-link>
               <a class="dropdown-item" href="#" @click="logOut">Log out</a>
             </div>
@@ -30,7 +26,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownId">
               <router-link :to="{name:'report'}" class="dropdown-item">Report automation</router-link>
               <a class="dropdown-item" href="#">API test case</a>
-              <a class="dropdown-item" href="#">Statistical</a>
+              <router-link class="dropdown-item" :to="{name:'regresstion'}">Statistical</router-link>
             </div>
           </li>
 
@@ -58,12 +54,12 @@
 <script>
 import { mapGetters,mapActions } from 'vuex'
 import {getCookie} from "@/utils/cookiesUtils.js";
-import contains from '@/utils/contains.js';
+import {constanst} from '@/utils/contains.js';
 export default {
     name :'HeaderLayout',
     computed:mapGetters(["auth","username"]),
     setup() {
-      const isLogin = getCookie(contains.Authorization);
+      const isLogin = getCookie(constanst.Authorization);
       let date = new Date().toLocaleDateString();
       const startDate = date;
       const endDate = date;
@@ -126,6 +122,8 @@ export default {
     top: 0;
     left: 0;
     z-index: 2;
-    background-color: #6c6e71;
+    background-color: #6c6e71; 
+    /* background: #000 */
 }
+
 </style>
