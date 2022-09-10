@@ -13,11 +13,11 @@
       </thead>
       <tbody>
         <tr>
-          <td>25.666</td>
-          <td>122</td>
-          <td>1224</td>
-          <td>40%</td>
-          <td>60%</td>
+          <td>{{this.totalTest}}</td>
+          <td>{{this.totalPass}}</td>
+          <td>{{this.totalFail}}</td>
+          <td>{{this.perTestFail}}%</td>
+          <td>{{this.perTestPass}}%</td>
         </tr>
       </tbody>
     </table>
@@ -27,7 +27,43 @@
 <script>
 export default {
     props:{
-        title:String
+        title:String,
+        total:Number,
+        pass:Number,
+        fail:Number,
+        perPass:Number,
+        perFail:Number
+    },
+    data(props){
+      let totalTest = props.total;
+      let totalPass = props.pass;
+      let totalFail = props.fail;
+      let perTestFail = props.perFail;
+      let perTestPass = props.perPass;
+      return {
+        totalTest ,
+        totalPass ,
+        totalFail ,
+        perTestFail,
+        perTestPass,
+      }
+    },
+    watch: {
+      total: function (newValue) {
+        this.totalTest = newValue;
+      },
+      pass: function (newValue) {
+        this.totalPass = newValue
+      },
+      fail: function (newValue) {
+        this.totalFail = newValue
+      },
+      perPass: function (newValue) {
+        this.perTestPass = newValue
+      },
+      perFail: function (newValue) {
+        this.perTestFail = newValue
+      }
     }
 };
 </script>

@@ -19,7 +19,8 @@
         </div>
         <div class="col-sm-1"></div>
         <div class="col-sm-4">
-          <ReportWeek title="Report test scripts in week" />
+          <ReportWeek title="Report test scripts all" :total="total" :pass="totalPass" :fail="totalFail"
+                        :perPass="percentPass" :perFail="percentFail"/>
           <ReportWeek title="Report test case in week" />
         </div>
       </div>
@@ -56,7 +57,7 @@ export default {
     const store = useStore();
     store.dispatch('getAllTestSuite');
   },
-  computed: mapGetters(["totalPass","totalFail","getSixDataInList"]),
+  computed: mapGetters(["totalPass","totalFail","getSixDataInList","percentPass","percentFail","total"]),
   methods: {
     ...mapActions(["getAllTestSuite"]),
   },

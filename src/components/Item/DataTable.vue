@@ -27,14 +27,11 @@ export default {
         let listObject = props.dataObject;
         let columnRender = props.dataColumns;
         let defineColumn = props.columnDefs;
-
         return { listObject, columnRender,defineColumn};
     },
     watch: {
         dataObject: function (newData) {
-            
             this.listObject = newData;
-            console.log(this.listObject);
             this.getAll(this.columnRender, this.listObject, this.defineColumn);
         },
     },

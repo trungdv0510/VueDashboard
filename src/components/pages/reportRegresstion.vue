@@ -13,7 +13,8 @@
                 </div>
                 <div class="form-group">
                     <label for="sprints" class="mr-2 text-black">Sprints :</label>
-                    <select name="sprintSelect" id="123" class="form-control mr-2 ">
+                    <select name="sprintSelect" id="sprintSelect" class="form-control mr-2 " v-model="sprint">
+                        <option value="">---SELECT SPRINT ----</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -21,7 +22,7 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <button class="btn btn-info my-2 my-sm-0" type="button" @click="getDate()">Search</button>
+                <button class="btn btn-info my-2 my-sm-0" type="button" @click="searchRegresstion()">Search</button>
             </form>
         </div>
     </div>
@@ -34,7 +35,8 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-4 mt-3">
-                    <ReportWeek title="Report regresstion test" />
+                    <ReportWeek title="Report regresstion test" :total="total" :pass="countPass" :fail="countFail"
+                        :perPass="percentPass" :perFail="percentFail" />
                 </div>
                 <div class="col-sm-1"></div>
             </div>
@@ -45,74 +47,70 @@
             report</button>
     </div>
     <!-- <DataTableVue titleName="Report regresstion test" :columns="columns" :dataColumns="dataColumns"
-        :columnDefs="columnDefs" :dataObject="convertDataToObject" /> -->
+        :columnDefs="columnDefs" :dataObject="listRegressionData" /> -->
     <!-- end body -->
 </template>
 <script>
 import pieChartVue from "../Charts/pieChart.vue";
 import { mapActions, mapGetters } from "vuex";
 import { useStore } from 'vuex';
-//import DataTableVue from "../Item/DataTable.vue";
 import ReportWeek from "@/components/Item/reportWeek.vue";
 export default {
     name: "regresstionTest",
     components: {
         pieChartVue,
-        //DataTableVue,
         ReportWeek
     },
     data() {
         const store = useStore();
-        store.dispatch('getAllTestSuite');
+        store.dispatch('getSprint');
         //trungdv add search with start date and end date
-        const startdate = this.$route.params.startdate;
-        const endDate = this.$route.params.enddate;
+        const startDate = this.startdate;
+        const endDate = this.enddate;
+        const sprintValue = this.sprint;
+        const option = {
+            startDate: startDate,
+            endDate: endDate,
+            sprint: sprintValue
+        }
         // trungdv: check find testsuite with date or not
-        if (startdate && endDate) {
-            let urlApi = `/user/testsuites/findbydate?startdate=${startdate}&enddate=${endDate}`
-            this.findTestSuiteWithDate(urlApi);
-        }
-        else {
-            store.dispatch('getAllTestSuite');
-        }
+        store.dispatch('getRegressionByOption',option);
         // define column
-        const columns = ["Test case name", "Report detail", "Sprint", "Date", "Result", "Reason"];
+        const columns = ["Test case name", "Sprint", "Date", "Result", "Reason"];
         //define data column 
         const dataColumns = [
-            { data: "suiteName" },
-            { data: "percentage" },
-            { data: "runTime" },
-            { data: "dateRun" },
+            { data: "testcase" },
+            { data: "sprint" },
+            { data: "date" },
             { data: "result" },
+            { data: "reason" },
         ]
         // define data render 
         const columnDefs =
             [
                 {
                     "targets": 0,
-                    "data": "suiteName",
+                    "data": "testcase",
                     "render": function (data) {
                         return ` <a href="/report/` + data[1] + `" class="">` + data[0] + `</a>`;
                     }
                 },
                 {
                     "targets": 1,
-                    "data": "percentage",
+                    "data": "sprint",
                     "render": function (data) {
-                        return `<div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar"
-                                style="width: `+ data[2] + `%"
-                                aria-valuenow="width:`+ data[2] + `"
-                                aria-valuemin="0" aria-valuemax="100">`+ data[0] + `</div>
-                            <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: `+ data[3] + `%"
-                                aria-valuenow="width: `+ data[3] + `"
-                                aria-valuemin="0" aria-valuemax="100">`+ data[1] + `</div>
-                        </div>`;
+                        return `<p> ` + data + `</p>`;
                     }
                 },
                 {
-                    "targets": 4,
+                    "targets": 2,
+                    "data": "date",
+                    "render": function (data) {
+                        return `<p> ` + data + `</p>`;
+                    }
+                },
+                {
+                    "targets": 3,
                     "data": "result",
                     "render": function (data) {
                         if (data == "FAIL") {
@@ -122,19 +120,34 @@ export default {
                             return `<p class="btn btn-success"> ` + data + `</p>`;
                         }
                     }
+                },
+                {
+                    "targets": 4,
+                    "data": "reason",
+                    "render": function (data) {
+                        return `<p> ` + data + `</p>`
+                    }
                 }
             ]
         return {
             columns,
             dataColumns,
             columnDefs,
-            startdate,
-            endDate
+            store
         }
     },
-    computed: mapGetters(["totalPass", "totalFail"]),
+    computed: mapGetters(["countPass", "countFail","percentPass","percentFail","listSprint","total","listRegressionData"]),
     methods: {
-        ...mapActions(["getAllTestSuite"]),
+        ...mapActions(["getRegressionByOption"]),
+        searchRegresstion(){
+            const option = {
+                startDate: this.startdate,
+                endDate: this.enddate,
+                sprint: this.sprint
+            }
+            // trungdv: check find testsuite with date or not
+            this.store.dispatch('getRegressionByOption', option);
+        }
     },
 }
 </script>

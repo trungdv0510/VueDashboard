@@ -6,6 +6,8 @@ const testsuite = {
         testSuiteDetails: {},
         testcaseWithTestSuiteUUID:[],
         testlogWithTestcaseUUID:[],
+        totalPass:0,
+        totalFail:0
     },
     getters: {
         listTestSuite: state => state.testsuiteList,
@@ -16,7 +18,7 @@ const testsuite = {
                     count++;
                 }
             });
-            return count;
+            return state.totalPass = count;
         },
         totalFail: state => {
             let count = 0
@@ -25,8 +27,11 @@ const testsuite = {
                     count++;
                 }
             });
-            return count;
+            return state.totalFail = count;
         },
+        total: state => state.testsuiteList.length,
+        percentPass: state => (state.totalPass/state.testsuiteList.length)*100,
+        percentFail: state => (state.totalFail/state.testsuiteList.length)*100,
         testSuiteDetails: state => state.testSuiteDetails,
         testcasePassWithMonth: state => state.testsuiteList.filter(item => item.result == "Pass"),
         testcaseWithTestSuiteUUID: state=>state.testcaseWithTestSuiteUUID,
