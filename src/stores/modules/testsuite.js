@@ -30,8 +30,8 @@ const testsuite = {
             return state.totalFail = count;
         },
         total: state => state.testsuiteList.length,
-        percentPass: state => (state.totalPass/state.testsuiteList.length)*100,
-        percentFail: state => (state.totalFail/state.testsuiteList.length)*100,
+        percentPass: state => ((state.totalPass/state.testsuiteList.length)*100).toFixed(),
+        percentFail: state => ((state.totalFail/state.testsuiteList.length)*100).toFixed(),
         testSuiteDetails: state => state.testSuiteDetails,
         testcasePassWithMonth: state => state.testsuiteList.filter(item => item.result == "Pass"),
         testcaseWithTestSuiteUUID: state=>state.testcaseWithTestSuiteUUID,

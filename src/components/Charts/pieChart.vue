@@ -31,9 +31,11 @@ export default {
   watch: {
     Pass: function (newValue) {
       this.pass = newValue;
+      this.pieChart(this.pass, this.fail);
     },
     Fail: function (newValue) {
-      this.fail = newValue
+      this.fail = newValue;
+      this.pieChart(this.pass, this.fail);
     }
 
   },

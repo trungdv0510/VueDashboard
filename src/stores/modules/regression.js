@@ -1,34 +1,35 @@
 import axios from 'axios';
+import {dateTimeFormat} from '@/utils/functionUtils.js';
 const regression = {
     state: {
         listSprint: [],
         listRegression: [],
-        listRegressionData:[],
         countPass:0,
         countFail:0,
-        percentPass:0,
-        percentFail:0,
-        total:0
+        percentPassRegress:0,
+        percentFailRegress:0,
+        totalRegress:0
     },
     getters: {
         listSprint: state => state.listSprint,
         listRegression: state => state.listRegression,
         countPass: state => state.countPass,
         countFail: state => state.countFail,
-        percentPass: state => state.percentPass,
-        percentFail: state => state.percentFail,
-        total: state => state.total,
-        listRegressionData: state=>state.listRegressionData,
+        percentPassRegress: state => state.percentPassRegress,
+        percentFailRegress: state => state.percentFailRegress,
+        totalRegress: state => state.totalRegress,
         convertDataRegressToObject: state => {
             let listObject = [];
             if (state.listRegression != null) {
+                console.log(state.listRegression);
                 state.listRegression.forEach(element => {
                 let object = {
-                  "testcase": [element.suiteName, element.testSuiteUuid],
+                  "testcase": [element.testcaseName, element.testsuiteUuid],
                   "sprint": element.sprint,
-                  "date": element.dateRun,
+                  "date": dateTimeFormat(element.dateRun),
                   "result": element.result,
-                  "reason": element.ErrorDescription,
+                  "reason": element.errorDescription,
+                  "author": element.author
                 }
                 listObject.push(object);
               });
@@ -40,19 +41,18 @@ const regression = {
         async getRegressionByOption({ commit,dispatch }, option) {
             try {
                 const params = {
-                    startDate: option.startDate == null ? '': option.startDate,
-                    endDate: option.endDate == null ? '': option.endDate,
-                    sprint: option.sprint == null ? '': option.sprint
+                    startDate: option.startDate,
+                    endDate: option.endDate,
+                    sprint: option.sprint
                 }
                 const response = await axios.get("/regression/search", {params});
                 if (response.status === 200) {
                     commit("SET_REGRESSTION", response.data);
                     commit("SET_COUNT_FAIL");
                     commit("SET_COUNT_PASS");
+                    commit("SET_TOTAL");
                     commit("SET_PASS_PERCENT");
                     commit("SET_FAIL_PERCENT");
-                    commit("SET_TOTAL");
-                    commit("SET_LISTGRESSIONDATA")
                 }
             } catch (error) {
                 dispatch("error", "Server error please try later");
@@ -60,8 +60,7 @@ const regression = {
         },
         async getSprint({ commit, dispatch }) {
             try {
-                const response = await axios.get(`/sprint`);
-                console.log(response);
+                const response = await axios.get(`/regression/sprint`);
                 if (response.status === 200) {
                     commit("SET_SPRINT", response.data);
                 }
@@ -96,37 +95,17 @@ const regression = {
             state.countFail = count;
         },
         SET_PASS_PERCENT(state){
-            let listRegressionLenght = state.total;
-            if(!isNaN(state.countPass) && !isNaN(listRegressionLenght)){
-                state.percentPass = ((state.countPass/listRegressionLenght) * 100).toFixed(3);
+            if(!isNaN(state.countPass) && !isNaN(state.totalRegress)){
+                state.percentPassRegress = ((state.countPass/state.totalRegress) * 100).toFixed();
             }
         },
         SET_FAIL_PERCENT(state){
-            let listRegressionLenght = state.total;
-            if(!isNaN(state.countFail) && !isNaN(listRegressionLenght)){
-                state.percentFail = ((state.countFail/listRegressionLenght) * 100).toFixed(3);
+            if(!isNaN(state.countFail) && !isNaN(state.totalRegress)){
+                state.percentFailRegress = ((state.countFail/state.totalRegress) * 100).toFixed();
             }
         },
         SET_TOTAL(state){
-            state.total = state.listRegression.length;
-        },
-        SET_LISTGRESSIONDATA(state){
-            state.listRegressionData = state => {
-                let listObject = [];
-                if (state.listRegression != null) {
-                    state.listRegression.forEach(element => {
-                    let object = {
-                      "testcase": [element.suiteName, element.testSuiteUuid],
-                      "sprint": element.sprint,
-                      "date": element.dateRun,
-                      "result": element.result,
-                      "reason": element.ErrorDescription,
-                    }
-                    listObject.push(object);
-                  });
-                }
-                return listObject;
-            }
+            state.totalRegress = state.listRegression.length;
         }
     }
 }

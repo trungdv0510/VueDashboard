@@ -14,12 +14,9 @@
                 <div class="form-group">
                     <label for="sprints" class="mr-2 text-black">Sprints :</label>
                     <select name="sprintSelect" id="sprintSelect" class="form-control mr-2 " v-model="sprint">
-                        <option value="">---SELECT SPRINT ----</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                       
+                        <option v-for="item in this.listSprint" :key="item">{{item}}</option>
+                       
                     </select>
                 </div>
                 <button class="btn btn-info my-2 my-sm-0" type="button" @click="searchRegresstion()">Search</button>
@@ -31,12 +28,12 @@
         <div class="chart">
             <div class="row">
                 <div class="col-sm-4">
-                    <pieChartVue :Pass="totalPass" :Fail="totalFail" />
+                    <pieChartVue :Pass="countPass" :Fail="countFail" />
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-4 mt-3">
-                    <ReportWeek title="Report regresstion test" :total="total" :pass="countPass" :fail="countFail"
-                        :perPass="percentPass" :perFail="percentFail" />
+                    <ReportWeek title="Report regresstion test" :total="totalRegress" :pass="countPass" :fail="countFail"
+                        :perPass="percentPassRegress" :perFail="percentFailRegress" />
                 </div>
                 <div class="col-sm-1"></div>
             </div>
@@ -46,8 +43,8 @@
         <button class="btn btn-outline-primary"><i class="fa fa-download" aria-hidden="true"></i> Dowload
             report</button>
     </div>
-    <!-- <DataTableVue titleName="Report regresstion test" :columns="columns" :dataColumns="dataColumns"
-        :columnDefs="columnDefs" :dataObject="listRegressionData" /> -->
+     <DataTableVue titleName="Report regresstion test" :columns="columns" :dataColumns="dataColumns"
+        :columnDefs="columnDefs" :dataObject="convertDataRegressToObject" />
     <!-- end body -->
 </template>
 <script>
@@ -55,11 +52,13 @@ import pieChartVue from "../Charts/pieChart.vue";
 import { mapActions, mapGetters } from "vuex";
 import { useStore } from 'vuex';
 import ReportWeek from "@/components/Item/reportWeek.vue";
+import DataTableVue from "../Item/DataTable.vue";
 export default {
     name: "regresstionTest",
     components: {
         pieChartVue,
-        ReportWeek
+        ReportWeek,
+        DataTableVue
     },
     data() {
         const store = useStore();
@@ -76,11 +75,12 @@ export default {
         // trungdv: check find testsuite with date or not
         store.dispatch('getRegressionByOption',option);
         // define column
-        const columns = ["Test case name", "Sprint", "Date", "Result", "Reason"];
+        const columns = ["Test case name", "Sprint","Author", "Date", "Result", "Reason"];
         //define data column 
         const dataColumns = [
             { data: "testcase" },
             { data: "sprint" },
+            { data: "author" },
             { data: "date" },
             { data: "result" },
             { data: "reason" },
@@ -104,13 +104,20 @@ export default {
                 },
                 {
                     "targets": 2,
-                    "data": "date",
+                    "data": "author",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`;
                     }
                 },
                 {
                     "targets": 3,
+                    "data": "date",
+                    "render": function (data) {
+                        return `<p> ` + data + `</p>`;
+                    }
+                },
+                {
+                    "targets": 4,
                     "data": "result",
                     "render": function (data) {
                         if (data == "FAIL") {
@@ -122,7 +129,7 @@ export default {
                     }
                 },
                 {
-                    "targets": 4,
+                    "targets": 5,
                     "data": "reason",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`
@@ -136,7 +143,7 @@ export default {
             store
         }
     },
-    computed: mapGetters(["countPass", "countFail","percentPass","percentFail","listSprint","total","listRegressionData"]),
+    computed: mapGetters(["countPass", "countFail","percentPassRegress","percentFailRegress","listSprint","totalRegress","listRegressionData","convertDataRegressToObject"]),
     methods: {
         ...mapActions(["getRegressionByOption"]),
         searchRegresstion(){
