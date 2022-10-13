@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm-2"></div>
         <div class="col-sm-4 mt-3">
-          <BarChart :months="['1', '2', '3', '4', '5']" :data='[551, 492, 494, 414, 635]' />
+          <BarChart :months="this.getSprint" :data='this.getTotal' />
         </div>
         <div class="col-sm-1"></div>
       </div>
@@ -56,8 +56,9 @@ export default {
   data() {
     const store = useStore();
     store.dispatch('getAllTestSuite');
+    store.dispatch('getTestcaseWithSprint');
   },
-  computed: mapGetters(["totalPass","totalFail","getSixDataInList","percentPass","percentFail","total"]),
+  computed: mapGetters(["totalPass","totalFail","getSixDataInList","percentPass","percentFail","total","getSprint","getTotal"]),
   methods: {
     ...mapActions(["getAllTestSuite"]),
   },

@@ -3,7 +3,6 @@
 </template>
 <script>
 import { Chart } from "chart.js";
-//import { watch } from "vue";
 export default {
   name: "PieChart",
   props: {
@@ -49,7 +48,7 @@ export default {
           datasets: [
             {
               label: "case",
-              backgroundColor: ["#3e95cd", "#8e5ea2"],
+              backgroundColor: ["green", "red"],
               data: [pass, fail],
             },
           ],

@@ -14,9 +14,9 @@
                 <div class="form-group">
                     <label for="sprints" class="mr-2 text-black">Sprints :</label>
                     <select name="sprintSelect" id="sprintSelect" class="form-control mr-2 " v-model="sprint">
-                       
+
                         <option v-for="item in this.listSprint" :key="item">{{item}}</option>
-                       
+
                     </select>
                 </div>
                 <button class="btn btn-info my-2 my-sm-0" type="button" @click="searchRegresstion()">Search</button>
@@ -32,18 +32,18 @@
                 </div>
                 <div class="col-sm-2"></div>
                 <div class="col-sm-4 mt-3">
-                    <ReportWeek title="Report regresstion test" :total="totalRegress" :pass="countPass" :fail="countFail"
-                        :perPass="percentPassRegress" :perFail="percentFailRegress" />
+                    <ReportWeek title="Report regresstion test" :total="totalRegress" :pass="countPass"
+                        :fail="countFail" :perPass="percentPassRegress" :perFail="percentFailRegress" />
                 </div>
                 <div class="col-sm-1"></div>
             </div>
         </div>
     </div>
     <div class="col-4">
-        <button class="btn btn-outline-primary"><i class="fa fa-download" aria-hidden="true"></i> Dowload
-            report</button>
+        <button class="btn btn-outline-primary" @click="downloadReportAuto()"><i class="fa fa-download"
+                aria-hidden="true"></i> Dowload report</button>
     </div>
-     <DataTableVue titleName="Report regresstion test" :columns="columns" :dataColumns="dataColumns"
+    <DataTableVue titleName="Report regresstion test" :columns="columns" :dataColumns="dataColumns"
         :columnDefs="columnDefs" :dataObject="convertDataRegressToObject" />
     <!-- end body -->
 </template>
@@ -53,6 +53,8 @@ import { mapActions, mapGetters } from "vuex";
 import { useStore } from 'vuex';
 import ReportWeek from "@/components/Item/reportWeek.vue";
 import DataTableVue from "../Item/DataTable.vue";
+import { isNullOrUndefined } from "@/utils/functionUtils.js";
+// import notification from 'vue-notification-ui';
 export default {
     name: "regresstionTest",
     components: {
@@ -73,12 +75,13 @@ export default {
             sprint: sprintValue
         }
         // trungdv: check find testsuite with date or not
-        store.dispatch('getRegressionByOption',option);
+        store.dispatch('getRegressionByOption', option);
         // define column
-        const columns = ["Test case name", "Sprint","Author", "Date", "Result", "Reason"];
+        const columns = ["Test case name", "Evidence detail", "Sprint", "Author", "Date", "Result", "Reason"];
         //define data column 
         const dataColumns = [
             { data: "testcase" },
+            { data: "evidence_link" },
             { data: "sprint" },
             { data: "author" },
             { data: "date" },
@@ -97,27 +100,34 @@ export default {
                 },
                 {
                     "targets": 1,
-                    "data": "sprint",
+                    "data": "evidence_link",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`;
                     }
                 },
                 {
                     "targets": 2,
-                    "data": "author",
+                    "data": "sprint",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`;
                     }
                 },
                 {
                     "targets": 3,
-                    "data": "date",
+                    "data": "author",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`;
                     }
                 },
                 {
                     "targets": 4,
+                    "data": "date",
+                    "render": function (data) {
+                        return `<p> ` + data + `</p>`;
+                    }
+                },
+                {
+                    "targets": 5,
                     "data": "result",
                     "render": function (data) {
                         if (data == "FAIL") {
@@ -129,7 +139,7 @@ export default {
                     }
                 },
                 {
-                    "targets": 5,
+                    "targets": 6,
                     "data": "reason",
                     "render": function (data) {
                         return `<p> ` + data + `</p>`
@@ -143,18 +153,45 @@ export default {
             store
         }
     },
-    computed: mapGetters(["countPass", "countFail","percentPassRegress","percentFailRegress","listSprint","totalRegress","listRegressionData","convertDataRegressToObject"]),
+    computed: mapGetters(["countPass", "countFail", "percentPassRegress", "percentFailRegress", "listSprint", "totalRegress", "listRegressionData", "convertDataRegressToObject"]),
     methods: {
-        ...mapActions(["getRegressionByOption"]),
-        searchRegresstion(){
+        ...mapActions(["getRegressionByOption", "downloadReport"]),
+        searchRegresstion() {
             const option = {
-                startDate: this.startdate,
-                endDate: this.enddate,
+                startDate: this.startDate,
+                endDate: this.endDate,
                 sprint: this.sprint
             }
             // trungdv: check find testsuite with date or not
             this.store.dispatch('getRegressionByOption', option);
-        }
+        },
+        downloadReportAuto() {
+            let message = "";
+            console.log(this.startDate);
+            console.log(this.endDate);
+            console.log(this.sprint);
+            if (isNullOrUndefined(this.startDate)) {
+                message += "start date, "
+            }
+            if (isNullOrUndefined(this.endDate)) {
+                message += "end date, "
+            }
+            if (isNullOrUndefined(this.sprint)) {
+                message += "sprint, "
+            }
+            if (message == "") {
+                const option = {
+                    startTime: this.startDate,
+                    endTime: this.endDate,
+                    sprint: this.sprint
+                }
+                this.store.dispatch("downloadReport", option);
+            } else{
+                message += "must selected to download report";
+                alert(message);
+            }
+
+        },
     },
 }
 </script>

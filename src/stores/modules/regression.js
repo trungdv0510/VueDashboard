@@ -8,7 +8,8 @@ const regression = {
         countFail:0,
         percentPassRegress:0,
         percentFailRegress:0,
-        totalRegress:0
+        totalRegress:0,
+        mapSprint:Object,
     },
     getters: {
         listSprint: state => state.listSprint,
@@ -27,6 +28,7 @@ const regression = {
                   "testcase": [element.testcaseName, element.testsuiteUuid],
                   "sprint": element.sprint,
                   "date": dateTimeFormat(element.dateRun),
+                  "evidence_link": element.evidenceLink,
                   "result": element.result,
                   "reason": element.errorDescription,
                   "author": element.author
@@ -35,7 +37,15 @@ const regression = {
               });
             }
             return listObject;
-          }
+          },
+        getSprint: state=> {
+            const objectKeys = Object.keys(state.mapSprint);
+            return objectKeys;
+        },
+        getTotal: state=> {
+            const objectValues = Object.values(state.mapSprint);
+            return objectValues;
+        }
     },
     actions: {
         async getRegressionByOption({ commit,dispatch }, option) {
@@ -66,6 +76,41 @@ const regression = {
                 }
             } catch (error) {
                 dispatch("error", "Server error please try later");
+            }
+        },
+        async downloadReport({dispatch},option){
+            try{
+                const params = {
+                    startTime: option.startTime,
+                    endTime: option.endTime,
+                    sprint: option.sprint
+                }
+                const response = await axios.get("/regression/report-automation",{
+                    params:params,
+                    responseType: 'blob',
+                });
+                if(response.status == 200){
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', "report_automation.xlsx");
+                    document.body.appendChild(link);
+                    link.click();
+                }else{
+                    dispatch("error","Cannot download data please try again later");
+                }
+            }catch(error){
+                dispatch("error", "Server error please try later");
+            }
+        },
+        async getTestcaseWithSprint({ commit,dispatch}){
+            try{
+                const response = await axios.get("/regression/sprint-total");
+                if(response.status == 200){
+                    commit("SET_SPRINT_TOTAL",response.data);
+                }
+            }catch(e){
+                dispatch("error", e);
             }
         }
     },
@@ -106,6 +151,9 @@ const regression = {
         },
         SET_TOTAL(state){
             state.totalRegress = state.listRegression.length;
+        },
+        SET_SPRINT_TOTAL(state, data){
+             state.mapSprint = data;
         }
     }
 }

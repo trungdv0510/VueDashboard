@@ -16,3 +16,15 @@ export function millisToMinutesAndSeconds(millis) {
     let seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
+export function isNullOrUndefined(object){
+    if(object == null || object == undefined){
+        return true;
+    }
+    return false;
+}
+export function randomColors(){
+    let randomColor = ["green","yellow","red","blue","pink","violet"];
+    let item  =  randomColor[Math.floor(Math.random()*randomColor.length)];
+    console.log(item);
+    return item;
+}

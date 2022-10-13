@@ -41,7 +41,7 @@ const testsuite = {
             if (state.testsuiteList != null || state.testsuiteList != undefined) {
               let arrayData = state.testsuiteList;
               if (arrayData.length != 0) {
-                for (let i = arrayData.length - 1; i >= 0; i--) {
+                for (let i = 0; i < arrayData.length ; i++) {
                   if (listData.length < 6) {
                     listData.push(arrayData[i]);
                   }
