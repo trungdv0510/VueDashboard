@@ -174,16 +174,12 @@ export default {
                 message += "start date, "
             }
             if (isNullOrUndefined(this.endDate)) {
-                message += "end date, "
-            }
-            if (isNullOrUndefined(this.sprint)) {
-                message += "sprint, "
+              message += "end date, "
             }
             if (message == "") {
                 const option = {
                     startTime: this.startDate,
-                    endTime: this.endDate,
-                    sprint: this.sprint
+                    endTime: this.endDate
                 }
                 this.store.dispatch("downloadReport", option);
             } else{
