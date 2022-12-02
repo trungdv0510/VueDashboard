@@ -50,7 +50,7 @@ const user = {
         },
         async login({ commit, dispatch }, userLogin) {
             try {
-                const response = await axios.post("http://localhost:8085/login", userLogin);
+                const response = await axios.post("http://192.168.0.103:8085/login", userLogin);
                 let username = userLogin.username;
                 if (response.status === 200) {
                     dispatch("success", "Login success");
@@ -69,7 +69,7 @@ const user = {
         },
         async logout({ commit }) {
             try {
-                await axios.get("http://localhost:8085/api/logout").then(commit("SET_LOGOUT"));
+                await axios.get("http://192.168.0.103:8085/api/logout").then(commit("SET_LOGOUT"));
             }
             catch (e) {
                 console.log(e);
