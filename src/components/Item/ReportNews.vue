@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { passPercentage, millisToMinutesAndSeconds } from '@/utils/functionUtils.js'
+import { passPercentage, millisToMinutesAndSeconds } from '@/utils/FunctionUtils.js'
 export default {
   props: {
     titleName: String,

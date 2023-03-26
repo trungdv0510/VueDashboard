@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { removeCookie, setCookie, getCookie } from "@/utils/cookiesUtils.js";
-import {constanst} from '@/utils/contains.js';
+import { removeCookie, setCookie, getCookie } from "@/utils/CookiesUtils.js";
+import {constanst} from '@/utils/Contains.js';
 const userLogin = getCookie("user");
 let isLogin = false;
 if (userLogin) {
@@ -50,7 +50,7 @@ const user = {
         },
         async login({ commit, dispatch }, userLogin) {
             try {
-                const response = await axios.post("http://192.168.0.103:8085/login", userLogin);
+                const response = await axios.post(`${constanst.pathServer}login`, userLogin);
                 let username = userLogin.username;
                 if (response.status === 200) {
                     dispatch("success", "Login success");
@@ -69,7 +69,7 @@ const user = {
         },
         async logout({ commit }) {
             try {
-                await axios.get("http://192.168.0.103:8085/api/logout").then(commit("SET_LOGOUT"));
+                await axios.get(`${constanst.pathServer}api/logout`).then(commit("SET_LOGOUT"));
             }
             catch (e) {
                 console.log(e);

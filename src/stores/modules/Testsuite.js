@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { passPercentage, millisToMinutesAndSeconds } from '@/utils/functionUtils.js';
+import { passPercentage, millisToMinutesAndSeconds } from '@/utils/FunctionUtils.js';
 const testsuite = {
     state: {
         testsuiteList: [],

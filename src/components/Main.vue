@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import HeaderLayout from "./layout/header.vue";
+import HeaderLayout from "./layout/Header.vue";
 
 export default {
   name: "MainAdmin",

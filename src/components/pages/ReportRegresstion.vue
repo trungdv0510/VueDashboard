@@ -48,12 +48,12 @@
     <!-- end body -->
 </template>
 <script>
-import pieChartVue from "../Charts/pieChart.vue";
+import pieChartVue from "../Charts/PieChart.vue";
 import { mapActions, mapGetters } from "vuex";
 import { useStore } from 'vuex';
-import ReportWeek from "@/components/Item/reportWeek.vue";
+import ReportWeek from "@/components/Item/ReportWeek.vue";
 import DataTableVue from "../Item/DataTable.vue";
-import { isNullOrUndefined } from "@/utils/functionUtils.js";
+import { isNullOrUndefined } from "@/utils/FunctionUtils.js";
 // import notification from 'vue-notification-ui';
 export default {
     name: "regresstionTest",

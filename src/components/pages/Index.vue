@@ -37,11 +37,11 @@
   <!-- end body -->
 </template>
 <script>
-import BarChart from "@/components/Charts/barChart.vue";
-import PieChart from "@/components/Charts/pieChart.vue";
-import ReportMoth from "@/components/Item/reportMonth.vue";
-import ReportWeek from "@/components/Item/reportWeek.vue";
-import ReportNew from "@/components/Item/reportNews.vue";
+import BarChart from "@/components/Charts/BarChart.vue";
+import PieChart from "@/components/Charts/PieChart.vue";
+import ReportMoth from "@/components/Item/ReportMonth.vue";
+import ReportWeek from "@/components/Item/ReportWeek.vue";
+import ReportNew from "@/components/Item/ReportNews.vue";
 import { mapActions,mapGetters } from "vuex";
 import { useStore } from 'vuex';
 export default {

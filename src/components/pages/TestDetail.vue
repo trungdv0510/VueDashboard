@@ -12,8 +12,8 @@
         </div>
 </template>
 <script>
-import SuiteReport from "@/components/Item/suiteReport.vue";
-import TestcaseReport from "@/components/Item/testcaseReport.vue";
+import SuiteReport from "@/components/Item/SuiteReport.vue";
+import TestcaseReport from "@/components/Item/TestcaseReport.vue";
 import { mapActions,useStore } from "vuex";
 import {computed} from 'vue';
 export default {

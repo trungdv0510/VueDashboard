@@ -3,7 +3,7 @@ export const constanst = {
     username:"username",
     testsuite:"testsuite",
     testSuiteDetails:"testSuiteDetails",
-    pathServer: "http://192.168.0.103:8085/",
+    pathServer: `${process.env.VUE_APP_SERVER}`,
 }
 export const configRegresstion={
     configName:"IS_REGRESS",

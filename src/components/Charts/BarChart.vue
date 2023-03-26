@@ -3,7 +3,7 @@
 </template>
 <script>
 import { Chart } from "chart.js";
-import { randomColors } from '@/utils/functionUtils.js'
+import { randomColors } from '@/utils/FunctionUtils.js'
 export default {
   name: "bar-chart",
   props: {

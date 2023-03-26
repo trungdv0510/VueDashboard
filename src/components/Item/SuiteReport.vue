@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { passPercentage, dateTimeFormat,millisToMinutesAndSeconds } from '@/utils/functionUtils.js';
+import { passPercentage, dateTimeFormat,millisToMinutesAndSeconds } from '@/utils/FunctionUtils.js';
 export default {
   props: {
     testSuite: {

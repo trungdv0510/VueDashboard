@@ -5,7 +5,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
 import store from './stores';
-import '@/utils/axios.js';
+import '@/utils/Axios.js';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "datatables.net-bs4";
 import "datatables.net-bs4/css/dataTables.bootstrap4.min.css";

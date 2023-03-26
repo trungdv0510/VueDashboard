@@ -6,7 +6,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex';
-import { configRegresstion } from '@/utils/contains.js';
+import { configRegresstion } from '@/utils/Contains.js';
 export default {
     name: "configItem",
     props: {

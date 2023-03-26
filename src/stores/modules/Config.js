@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { configRegresstion } from '@/utils/contains.js';
+import { configRegresstion } from '@/utils/Contains.js';
 const config = {
     state: {
         configRegression: false,

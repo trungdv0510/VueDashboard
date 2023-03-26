@@ -17,8 +17,8 @@
 </template>
 <script>
 import { mapGetters, useStore, mapActions } from 'vuex';
-import { configRegresstion } from '@/utils/contains.js'
-import configItem from '../Item/configItem.vue';
+import { configRegresstion } from '@/utils/Contains.js'
+import configItem from '../Item/ConfigItem.vue';
 export default {
     name: "regresstionTest",
     components: {

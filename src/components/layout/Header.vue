@@ -53,8 +53,8 @@
 </template>
 <script>
 import { mapGetters,mapActions } from 'vuex'
-import {getCookie} from "@/utils/cookiesUtils.js";
-import {constanst} from '@/utils/contains.js';
+import {getCookie} from "@/utils/CookiesUtils.js";
+import {constanst} from '@/utils/Contains.js';
 export default {
     name :'HeaderLayout',
     computed:mapGetters(["auth","username"]),

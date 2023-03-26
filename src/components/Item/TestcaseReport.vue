@@ -10,8 +10,6 @@
           }}</p>
         </div>
       </div>
-
-
     </div>
     <div class="col-sm-8 ml-4" id="v-pills-tabContent" v-if="detailRender">
       <div class="tab-pane fade show" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
@@ -50,11 +48,11 @@
                 <p> {{ item.testLogTime }}</p>
               </td>
               <td v-if="item.detail == 'image'">
-                <img class="reportImg" :src="this.domainServer + item.stepName" :alt="item.detail"
-                  @click="showImgModal(this.domainServer + item.stepName)">
+                <img class="reportImg" :src="item.stepName" :alt="item.detail"
+                  @click="showImgModal(item.stepName)">
               </td>
               <td v-else-if="item.detail == 'video'">
-                <video class="videoStyle" :src="this.domainServer + item.stepName" controls></video>
+                <video class="videoStyle" :src="item.stepName" controls></video>
               </td>
               <td v-else>
                 {{ item.stepName }}
@@ -78,8 +76,8 @@
 </template>
 
 <script>
-import { proxyToData } from '@/utils/functionUtils.js';
-import {constanst} from '@/utils/contains.js';
+import { proxyToData } from '@/utils/FunctionUtils.js';
+import {constanst} from '@/utils/Contains.js';
 import { ref } from "vue";
 export default {
   props: {
